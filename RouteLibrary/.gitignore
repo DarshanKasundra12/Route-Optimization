@@ -1,0 +1,14 @@
+# Large Map Data Files (Standard Git doesn't handle files >100MB)
+# Recommended: Use Git LFS if you want to push these.
+# If not using Git LFS, these must stay ignored.
+osrm-data/*.osrm*
+osrm-data/*.osm.pbf
+osrm-data/*.poly
+
+# VROOM Logs
+vroom-docker/conf/*.log
+vroom-docker/conf/access.log
+vroom-docker/vroom-express/node_modules/
+
+# Local configuration overrides
+vroom-docker/conf/config.yml.local

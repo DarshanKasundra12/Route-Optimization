@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/BrowserLogo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RouteFlow Pro</title>
+    <meta
+      name="description"
+      content="Advanced Route Optimization System for Logistics and Supply Chain Management. Minimize costs and fuel consumption with OSRM and VROOM."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#3B82F6",
+              "primary-hover": "#2563EB",
+              "background-light": "#F3F4F6",
+              "background-dark": "#0F172A",
+              "card-light": "#FFFFFF",
+              "card-dark": "#1E293B",
+              "sidebar-light": "#FFFFFF",
+              "sidebar-dark": "#0B1120",
+              danger: "#EF4444",
+              success: "#10B981",
+              warning: "#F59E0B",
+              info: "#3B82F6",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+              body: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

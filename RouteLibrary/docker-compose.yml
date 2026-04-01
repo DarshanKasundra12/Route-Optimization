@@ -1,0 +1,79 @@
+# services:
+#   mongo:
+#     image: mongo:7
+#     container_name: mongo-db
+#     ports:
+#       - "27017:27017"
+#     volumes:
+#       - mongo_data:/data/db
+#     restart: unless-stopped
+
+#   osrm:
+#     image: osrm/osrm-backend:latest
+#     container_name: osrm-backend
+#     ports:
+#       - "5000:5000"
+#     volumes:
+#       - ./osrm-data:/data
+#     command: ["osrm-routed", "--algorithm", "mld", "/data/western-zone-latest.osrm"]
+#     restart: unless-stopped
+
+#   vroom:
+#     image: ghcr.io/vroom-project/vroom-docker:v1.14.0
+#     container_name: vroom-express
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - osrm
+#     restart: unless-stopped
+#     environment:
+#       - VROOM_ROUTER=osrm
+#     command: ["-r", "osrm", "-a", "osrm:5000"]
+
+# volumes:
+#   mongo_data:
+
+services:
+  osrm:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-path-service
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./osrm-data:/data
+    command:
+      ["osrm-routed", "--algorithm", "mld", "/data/western-zone-latest.osrm"]
+    restart: unless-stopped
+    networks:
+      - new-app-network
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+
+  vroom:
+    build:
+      context: ./vroom-docker
+      args:
+        VROOM_RELEASE: v1.14.0
+      extra_hosts:
+        - "github.com:20.207.73.82"
+    container_name: vroom-route-optimizer
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./vroom-docker/conf:/conf
+    depends_on:
+      - osrm
+    restart: unless-stopped
+    networks:
+      - new-app-network
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    environment:
+      - VROOM_ROUTER=osrm
+
+networks:
+  new-app-network:
+    driver: bridge
+    name: new-app-network
